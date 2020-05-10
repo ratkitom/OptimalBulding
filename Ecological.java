@@ -1,33 +1,32 @@
-import java.lang.reflect.Array;
+package app;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 // This strategy  minimize length of waste
 
-public class Eco implements StrategyView  {
+public class Ecological implements StrategyView  {
 
 
 
 
     private int[][] priceList;
 
-    int cutRods=Integer.MAX_VALUE;
-    int price=0;
+    private int cutRods=Integer.MAX_VALUE;
+    private int price=0;
 
-     List<List<Integer>> best=new ArrayList<>();
-
-     List<Rod> rod=new ArrayList<>();
-
+    private List<List<Integer>> best;
+    private List<Rod> rod;
 
 
 
 
 
-     public Eco(int[] project,int[][] List){
 
+     public Ecological(int[] project, int[][] List){
 
+         rod = new ArrayList<>();
+         best = new ArrayList<>();
 
          this.priceList=List;
          findBestSolution(project,new ArrayList<>(),0,0);
@@ -50,7 +49,7 @@ public class Eco implements StrategyView  {
 
 
 
-     // Recursive Knapsack algorithm
+     // Recursive Knapsack algorithm which finds the best way to cut  particular rod from price list to minimize amount of waste.
      private int bestCut (int index,int capacity,int[] project,boolean[] temp){
 
          if(capacity==0||index==0){
@@ -102,7 +101,7 @@ public class Eco implements StrategyView  {
 
      }
 
-    // Search for best combination which minimize length of waste
+
      private void findBestSolution(int[] project,List<List<Integer>> list,int waste,int price) {
 
 
@@ -114,14 +113,34 @@ public class Eco implements StrategyView  {
 
                 if (checktab(project,priceList[0][i])) {
 
+                    // this variable stores amount of rods left
+
                     int counter=0;
+
+                    // this variable stores the amount of waste left after rod cut
+
                     int cut=0;
+
+                    // this variable stores the current purchase cost
+
                     int cost;
+
+                    //   this list stores the rods currently purchased and their division into parts
+
                     List<List<Integer>> copyList = new ArrayList<>(list);
+
+                    // this list stores the rod from price list currently under consideration  and how it was cut
+
                     List<Integer> newList=new ArrayList<>();
+
                     newList.add(priceList[0][i]);
 
+                    // this array holds mapping of rods which were and weren't taken from project
+
                     boolean[] temp = new boolean[project.length];
+
+                    // this array holds rods from project that weren't included
+
                     int[] extant;
 
                     bestCut(project.length, priceList[0][i], project, temp);
@@ -191,7 +210,7 @@ public class Eco implements StrategyView  {
              }
      }
 
-    // Check if left any of left elements fits in rod form price list
+    // Check if any of left elements fits in rod form price list
      private boolean checktab(int[] tab,int rod){
 
          boolean check=false;
